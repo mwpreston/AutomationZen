@@ -16,6 +16,8 @@ jobs:
 
     - name: Change to Ansible directory and clone Ansible Repo
       run: cd ansible-workflows && git clone https://github.com/rubrikinc/rubrik-modules-for-ansible.git
+    - name: Stage Ansible files
+      run: cd ansible-workflows/rubrik-modules-for-ansible/ && cp -R rubrikinc ../.. && cp ansible.cfg ../..
     - name: Run Ansible Playbook to clone VM
       run: ansible-playbook --verbose ansible/clone_template.yaml
       env:
