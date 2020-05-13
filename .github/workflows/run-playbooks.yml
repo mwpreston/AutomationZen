@@ -19,7 +19,7 @@ jobs:
     - name: Stage Ansible files
       run: cd ansible-workflows/rubrik-modules-for-ansible/ && cp -R rubrikinc ../.. && cp ansible.cfg ../..
     - name: Run Ansible Playbook to clone VM
-      run: ansible-playbook --verbose ansible-worflows/clone_template.yaml
+      run: ansible-playbook --verbose ansible-workflows/clone_template.yaml
       env:
         VMWARE_USER: ${{ secrets.VMWARE_USER }}
         VMWARE_PASSWORD: ${{ secrets.VMWARE_PASSWORD }}
@@ -29,13 +29,13 @@ jobs:
         VMWARE_FOLDER: ${{ secrets.VMWARE_FOLDER }}
         VMNAME: ${{ secrets.VMNAME }}
     - name: Run Ansible Playbook to refresh vCenter
-      run: ansible-playbook -vvv ansible-worflows/refresh_vcenter.yaml && sleep 90
+      run: ansible-playbook -vvv ansible-workflows/refresh_vcenter.yaml && sleep 90
       env:
         rubrik_cdm_node_ip: ${{ secrets.RUBRIK_CDM_NODE_IP }}
         rubrik_cdm_token: ${{ secrets.RUBRIK_CDM_TOKEN }}
         VMWARE_VCSA: ${{ secrets.VMWARE_VCSA }}
     - name: Run Ansible Playbook to protect VM
-      run: ansible-playbook -vvv ansible-worflows/protect_vm.yaml
+      run: ansible-playbook -vvv ansible-workflows/protect_vm.yaml
       env:
         rubrik_cdm_node_ip: ${{ secrets.RUBRIK_CDM_NODE_IP }}
         rubrik_cdm_token: ${{ secrets.RUBRIK_CDM_TOKEN }}
