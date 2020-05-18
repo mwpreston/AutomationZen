@@ -1,11 +1,27 @@
 ﻿---
-    - hosts: localhost
-      connection: local
-      gather_facts: false
+- name: Create a VM from a template
+  hosts: localhost
+  tasks:
+  - name: Get VM Info
+    vmware_guest_info:
+      hostname: "{{ lookup('env', 'VMWARE_VCSA') }}"
+      username: "{{ lookup('env', 'VMWARE_USER') }}"
+      password: "{{ lookup('env', 'VMWARE_PASSWORD') }}"
+      validate_certs: False
+      name: "{{ lookup('env', 'VMNAME') }}"
+      datacenter: "{{ lookup('env', 'VMWARE_DATACENTER') }}"
+    register: vminfo
 
-      tasks:
 
-        - name: Refresh vCenter
-          rubrik_refresh_vcenter:
-            vcenter_ip: "{{ lookup('env', 'VMWARE_VCSA') }}"
-            wait_for_completion: true
+  - name: Test GET
+    uri:
+      url: "https://192.168.150.131/api/internal/vmware/vcenter/vCenter:::4c0f0c71-1390-4017-9206-f8b16bd7ca8c/refresh_vm"
+      user: "{{ lookup('env', 'rubrik_cdm_username') }}"
+      password: "{{ lookup('env', 'rubrik_cdm_password') }}"
+      validate_certs: no
+      method: POST
+      force_basic_auth: yes
+      body_format: json
+      status_code: 204
+      body: "{{ '{ \"vmMoid\": \"' + vminfo.instance.moid + '\"}' }}"
+
