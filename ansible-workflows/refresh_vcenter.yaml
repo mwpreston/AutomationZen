@@ -13,7 +13,7 @@
     register: vminfo
 
 
-  - name: Test GET
+  - name: Refresh individual VM in vCenter
     uri:
       url: "https://192.168.150.131/api/internal/vmware/vcenter/vCenter:::4c0f0c71-1390-4017-9206-f8b16bd7ca8c/refresh_vm"
       user: "{{ lookup('env', 'rubrik_cdm_username') }}"
