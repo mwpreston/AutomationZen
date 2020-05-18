@@ -15,4 +15,4 @@ jobs:
     - name: Change to Ansible directory and clone Ansible Repo
       run: cd ansible-workflows
     - name: Run Ansible Playbook to clone VM
-      run: ansible-playbook --verbose --syntax-check *.yaml
+      run: ansible-playbook --verbose --syntax-check ansible-workflows/*.yaml
