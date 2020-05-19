@@ -1,8 +1,9 @@
 ﻿---
 - name: Refresh vCenter within Rubrik
   hosts: localhost
+  gather_facts: no
   tasks:
-  - name: Get VM Info
+  - name: Get VM Information from VMware
     vmware_guest_info:
       hostname: "{{ lookup('env', 'VMWARE_VCSA') }}"
       username: "{{ lookup('env', 'VMWARE_USER') }}"
@@ -12,10 +13,26 @@
       datacenter: "{{ lookup('env', 'VMWARE_DATACENTER') }}"
     register: vminfo
 
+  - name: Get vCenter ID from Rubrik
+    uri:
+      url: "https://{{ lookup('env', 'rubrik_cdm_node_ip') }}/api/v1/vmware/vcenter"
+      user: "{{ lookup('env', 'rubrik_cdm_username') }}"
+      password: "{{ lookup('env', 'rubrik_cdm_password') }}"
+      validate_certs: no
+      method: GET
+      force_basic_auth: yes
+      status_code: 200
+    register: vcenterinfo
+
+  - name: Filter list of vCenters to desired one
+    set_fact:
+      vcenter_id: " {{ vcenterinfo.json.data | json_query(vcenter_id)|first|replace(' ','') }}"
+    vars:
+      vcenter_id: "[?name=='{{ lookup('env', 'VMWARE_VCSA') }}'].id"
 
   - name: Refresh individual VM in vCenter
     uri:
-      url: "https://192.168.150.131/api/internal/vmware/vcenter/vCenter:::4c0f0c71-1390-4017-9206-f8b16bd7ca8c/refresh_vm"
+      url: "https://{{ lookup('env','rubrik_cdm_node_ip') }}/api/internal/vmware/vcenter/{{ vcenter_id |replace(' ','') }}/refresh_vm"
       user: "{{ lookup('env', 'rubrik_cdm_username') }}"
       password: "{{ lookup('env', 'rubrik_cdm_password') }}"
       validate_certs: no
@@ -24,4 +41,3 @@
       body_format: json
       status_code: 204
       body: "{{ '{ \"vmMoid\": \"' + vminfo.instance.moid + '\"}' }}"
-
