@@ -3,7 +3,7 @@
   hosts: localhost
   gather_facts: no
   tasks:
-  - name: Clone from template
+  - name: Clone VM from template
     vmware_guest:
       hostname: "{{ lookup('env', 'VMWARE_VCSA') }}"
       validate_certs: False
