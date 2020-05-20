@@ -1,1 +1,2 @@
-# AutomationZen
+# Automation Zen
+Automation Zen Project
