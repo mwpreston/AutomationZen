@@ -6,8 +6,6 @@
   - name: Get VM Information from VMware
     vmware_guest_info:
       hostname: "{{ lookup('env', 'VMWARE_VCSA') }}"
-      username: "{{ lookup('env', 'VMWARE_USER') }}"
-      password: "{{ lookup('env', 'VMWARE_PASSWORD') }}"
       validate_certs: False
       name: "{{ lookup('env', 'VMNAME') }}"
       datacenter: "{{ lookup('env', 'VMWARE_DATACENTER') }}"
