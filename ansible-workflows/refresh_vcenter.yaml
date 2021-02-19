@@ -9,6 +9,8 @@
       validate_certs: False
       name: "{{ lookup('env', 'VMNAME') }}"
       datacenter: "{{ lookup('env', 'VMWARE_DATACENTER') }}"
+      username: "{{ lookup('env', 'VMWARE_USER') }}"
+      password: "{{ lookup('env', 'VMWARE_PASSWORD') }}"
     register: vminfo
 
   - name: Get vCenter ID from Rubrik
