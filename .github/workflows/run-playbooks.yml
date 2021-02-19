@@ -34,6 +34,7 @@ jobs:
         rubrik_cdm_username: ${{ secrets.RUBRIK_CDM_USERNAME }}
         rubrik_cdm_password: ${{ secrets.RUBRIK_CDM_PASSWORD }}
         VMWARE_VCSA: ${{ secrets.VMWARE_VCSA }}
+        VMNAME: ${{ secrets.VMNAME }}
     - name: Run Ansible Playbook to protect VM
       run: ansible-playbook -vvv ansible-workflows/protect_vm.yaml
       env:
