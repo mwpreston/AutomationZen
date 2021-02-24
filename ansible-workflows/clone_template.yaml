@@ -8,7 +8,7 @@
       hostname: "{{ lookup('env', 'VMWARE_VCSA') }}"
       validate_certs: False
       name: "{{ lookup('env', 'VMNAME') }}"
-      template: TMPL_ATM
+      template: brikdaytmpl
       datacenter: "{{ lookup('env', 'VMWARE_DATACENTER') }}"
       folder: "{{ lookup('env', 'VMWARE_FOLDER') }}"
       state: poweredon
