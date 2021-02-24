@@ -1,4 +1,4 @@
-﻿name: Run Ansible Playbooks
+﻿name: Check Syntax
 
 on:
   - pull_request
